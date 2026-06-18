@@ -1,0 +1,34 @@
+// Override NC header chrome so our Vue layout takes full control
+#header {
+	--header-height: 64px; // NcHeaderMenu uses this for its trigger button size
+	padding: 0 !important;
+	background: var(--ion-color-main-background) !important;
+	box-shadow: var(--ion-shadow-header) !important;
+	height: 64px !important;
+	display: flex !important;
+	align-items: center !important;
+}
+
+#simplenavigation-logo {
+	display: flex;
+	align-items: center;
+	height: 64px;
+	flex-shrink: 0;
+}
+
+// NC's .header-right must stay flex so unified-search + our usermenu align
+.header-right {
+	display: flex !important;
+	align-items: center !important;
+	margin-left: auto;
+	gap: 16px;
+	padding-right: 16px;
+}
+
+// Force the unified-search trigger to use the IONOS header text colour.
+// NcHeaderMenu hardcodes color: var(--color-background-plain-text) on its trigger;
+// override the variable at the #unified-search scope so it and NcButton pick it up.
+#unified-search {
+	--color-background-plain-text: var(--ion-text);
+	--color-primary-text: var(--ion-text);
+}
