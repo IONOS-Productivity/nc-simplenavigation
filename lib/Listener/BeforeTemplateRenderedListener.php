@@ -28,26 +28,28 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		if (!($event instanceof BeforeTemplateRenderedEvent)) {
 			return;
 		}
-		if (!$event->isLoggedIn()) {
-			return;
-		}
 
+		$isLoggedIn = $event->isLoggedIn();
+		$this->initialState->provideInitialState('isLoggedIn', $isLoggedIn);
 		$this->initialState->provideInitialState('homeUrl',
 			$this->urlGenerator->linkTo('', 'index.php'));
-		$this->initialState->provideInitialState('displayName',
-			$this->userSession->getUser()?->getDisplayName() ?? '');
-		$this->initialState->provideInitialState('logoutUrl',
-			\OC_User::getLogoutUrl($this->urlGenerator));
-		$this->initialState->provideInitialState('settingsUrl',
-			$this->urlGenerator->linkToRoute('simplesettings.page.index'));
-		$this->initialState->provideInitialState('webmailUrl',
-			$this->config->getSystemValue('ionos_peer_products', [])['ionos_webmail_target_link'] ?? null);
-		$this->initialState->provideInitialState('hasEmailProduct',
-			$this->checkEmailProduct());
-		$this->initialState->provideInitialState('securityUrl',
-			$this->config->getSystemValue('ionos_security_target_link', ''));
-		$this->initialState->provideInitialState('helpUrl',
-			$this->config->getSystemValue('ionos_help_target_link', ''));
+
+		if ($isLoggedIn) {
+			$this->initialState->provideInitialState('displayName',
+				$this->userSession->getUser()?->getDisplayName() ?? '');
+			$this->initialState->provideInitialState('logoutUrl',
+				\OC_User::getLogoutUrl($this->urlGenerator));
+			$this->initialState->provideInitialState('settingsUrl',
+				$this->urlGenerator->linkToRoute('simplesettings.page.index'));
+			$this->initialState->provideInitialState('webmailUrl',
+				$this->config->getSystemValue('ionos_peer_products', [])['ionos_webmail_target_link'] ?? null);
+			$this->initialState->provideInitialState('hasEmailProduct',
+				$this->checkEmailProduct());
+			$this->initialState->provideInitialState('securityUrl',
+				$this->config->getSystemValue('ionos_security_target_link', ''));
+			$this->initialState->provideInitialState('helpUrl',
+				$this->config->getSystemValue('ionos_help_target_link', ''));
+		}
 
 		Util::addScript(Application::APP_ID, Application::APP_ID . '-main');
 		Util::addStyle(Application::APP_ID, Application::APP_ID . '-main');
