@@ -29,31 +29,33 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		if (!($event instanceof BeforeTemplateRenderedEvent)) {
 			return;
 		}
-		if (!$event->isLoggedIn()) {
-			return;
-		}
 
+		$isLoggedIn = $event->isLoggedIn();
+		$this->initialState->provideInitialState('isLoggedIn', $isLoggedIn);
 		$this->initialState->provideInitialState('homeUrl',
 			$this->urlGenerator->linkTo('', 'index.php'));
-		$this->initialState->provideInitialState('displayName',
-			$this->userSession->getUser()?->getDisplayName() ?? '');
-		$this->initialState->provideInitialState('logoutUrl',
-			(string)\OC_User::getLogoutUrl($this->urlGenerator));
-		$this->initialState->provideInitialState('settingsUrl',
-			$this->urlGenerator->linkToRoute('simplesettings.page.index'));
 
-		// Left unset when not configured: the frontend defaults this key to null.
-		$webmailUrl = $this->getPeerProductLink('ionos_webmail_target_link');
-		if ($webmailUrl !== null) {
-			$this->initialState->provideInitialState('webmailUrl', $webmailUrl);
+		if ($isLoggedIn) {
+			$this->initialState->provideInitialState('displayName',
+				$this->userSession->getUser()?->getDisplayName() ?? '');
+			$this->initialState->provideInitialState('logoutUrl',
+				(string)\OC_User::getLogoutUrl($this->urlGenerator));
+			$this->initialState->provideInitialState('settingsUrl',
+				$this->urlGenerator->linkToRoute('simplesettings.page.index'));
+
+			// Left unset when not configured: the frontend defaults this key to null.
+			$webmailUrl = $this->getPeerProductLink('ionos_webmail_target_link');
+			if ($webmailUrl !== null) {
+				$this->initialState->provideInitialState('webmailUrl', $webmailUrl);
+			}
+
+			$this->initialState->provideInitialState('hasEmailProduct',
+				$this->checkEmailProduct());
+			$this->initialState->provideInitialState('securityUrl',
+				$this->config->getSystemValueString('ionos_security_target_link'));
+			$this->initialState->provideInitialState('helpUrl',
+				$this->config->getSystemValueString('ionos_help_target_link'));
 		}
-
-		$this->initialState->provideInitialState('hasEmailProduct',
-			$this->checkEmailProduct());
-		$this->initialState->provideInitialState('securityUrl',
-			$this->config->getSystemValueString('ionos_security_target_link'));
-		$this->initialState->provideInitialState('helpUrl',
-			$this->config->getSystemValueString('ionos_help_target_link'));
 
 		Util::addScript(Application::APP_ID, Application::APP_ID . '-main');
 		Util::addStyle(Application::APP_ID, Application::APP_ID . '-main');

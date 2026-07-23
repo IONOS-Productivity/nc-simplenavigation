@@ -33,6 +33,8 @@ window.addEventListener('DOMContentLoaded', () => {
 	const headerRight = header.querySelector<HTMLElement>('.header-right')
 	if (!headerRight) return
 
+	const isLoggedIn = loadState('simplenavigation', 'isLoggedIn', false)
+
 	// Hide NC elements we don't want visible
 	for (const id of ['notifications', 'contactsmenu', 'user-menu']) {
 		const el = document.getElementById(id)
@@ -50,17 +52,19 @@ window.addEventListener('DOMContentLoaded', () => {
 		homeUrl: loadState('simplenavigation', 'homeUrl', '/'),
 	}).mount('#simplenavigation-logo')
 
-	// Mount webmail link + our UserMenu after #unified-search inside .header-right
-	const userMenuMount = document.createElement('div')
-	userMenuMount.id = 'simplenavigation-usermenu'
-	headerRight.appendChild(userMenuMount)
+	// Mount webmail link + our UserMenu only for authenticated users
+	if (isLoggedIn) {
+		const userMenuMount = document.createElement('div')
+		userMenuMount.id = 'simplenavigation-usermenu'
+		headerRight.appendChild(userMenuMount)
 
-	makeApp(UserMenu, {
-		displayName: loadState('simplenavigation', 'displayName', ''),
-		logoutUrl: loadState('simplenavigation', 'logoutUrl', ''),
-		settingsUrl: loadState('simplenavigation', 'settingsUrl', ''),
-		webmailUrl: loadState<string | null>('simplenavigation', 'webmailUrl', null),
-		securityUrl: loadState('simplenavigation', 'securityUrl', ''),
-		helpUrl: loadState('simplenavigation', 'helpUrl', ''),
-	}).mount('#simplenavigation-usermenu')
+		makeApp(UserMenu, {
+			displayName: loadState('simplenavigation', 'displayName', ''),
+			logoutUrl: loadState('simplenavigation', 'logoutUrl', ''),
+			settingsUrl: loadState('simplenavigation', 'settingsUrl', ''),
+			webmailUrl: loadState<string | null>('simplenavigation', 'webmailUrl', null),
+			securityUrl: loadState('simplenavigation', 'securityUrl', ''),
+			helpUrl: loadState('simplenavigation', 'helpUrl', ''),
+		}).mount('#simplenavigation-usermenu')
+	}
 })
