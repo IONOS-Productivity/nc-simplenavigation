@@ -91,10 +91,18 @@ final class BeforeTemplateRenderedListenerTest extends TestCase {
 		$this->assertSame([], $this->providedState);
 	}
 
-	public function testIgnoresAnonymousRendering(): void {
+	/**
+	 * Anonymous rendering still gets the logo, so homeUrl and the login flag are
+	 * provided; only the user menu state is withheld.
+	 */
+	public function testProvidesOnlyPublicStateForAnonymousRendering(): void {
 		$this->listener->handle($this->renderEvent(false));
 
-		$this->assertSame([], $this->providedState);
+		$this->assertFalse($this->providedState['isLoggedIn']);
+		$this->assertSame('/index.php', $this->providedState['homeUrl']);
+		foreach (['displayName', 'logoutUrl', 'settingsUrl', 'webmailUrl', 'hasEmailProduct', 'securityUrl', 'helpUrl'] as $key) {
+			$this->assertArrayNotHasKey($key, $this->providedState);
+		}
 	}
 
 	public function testProvidesHeaderState(): void {
@@ -104,6 +112,7 @@ final class BeforeTemplateRenderedListenerTest extends TestCase {
 
 		$this->listener->handle($this->renderEvent());
 
+		$this->assertTrue($this->providedState['isLoggedIn']);
 		$this->assertSame('/index.php', $this->providedState['homeUrl']);
 		$this->assertSame('Alice Example', $this->providedState['displayName']);
 		$this->assertSame('/route/simplesettings.page.index', $this->providedState['settingsUrl']);
