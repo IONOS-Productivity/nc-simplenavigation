@@ -1,0 +1,11 @@
+OC.L10N.register(
+    "simplenavigation",
+    {
+    "Help & Support" : "Aide et assistance",
+    "IONOS Webmail" : "IONOS Webmail",
+    "Login & Security" : "Connexion et sécurité",
+    "Logout" : "Déconnexion",
+    "Settings" : "Paramètres",
+    "User menu" : "Menu utilisateur"
+},
+"nplurals=2; plural=(n > 1);");
