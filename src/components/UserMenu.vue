@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { t } from '@nextcloud/l10n'
 import { onClickOutside } from '@vueuse/core'
-import IconEmail from 'vue-material-design-icons/Email.vue'
-import IconCog from 'vue-material-design-icons/Cog.vue'
-import IconAccountKey from 'vue-material-design-icons/AccountKey.vue'
-import IconHelpCircle from 'vue-material-design-icons/HelpCircle.vue'
-import IconLogout from 'vue-material-design-icons/Logout.vue'
-import IconAccount from 'vue-material-design-icons/Account.vue'
+import {
+	mdiEmail,
+	mdiCog,
+	mdiAccountKey,
+	mdiHelpCircle,
+	mdiLogout,
+	mdiAccount,
+} from '@mdi/js'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 const props = defineProps<{
 	displayName: string
@@ -15,6 +19,7 @@ const props = defineProps<{
 	helpUrl: string
 	logoutUrl: string
 	webmailUrl: string | null
+	hasEmailProduct: boolean
 }>()
 
 const showMenu = ref(false)
@@ -25,20 +30,21 @@ onClickOutside(root, () => { showMenu.value = false })
 
 <template>
 	<!--
-		Webmail and user menu are siblings, not nested.
-		display: contents on the root makes #simplenavigation-usermenu
-		transparent to the flex layout of .header-right, so the gap: 16px
-		on .header-right applies between #unified-search, the webmail link,
-		and the user menu trigger — exactly like the Svelte header-right.
+		Webmail and user menu are siblings, not nested. Both the mount point
+		(#simplenavigation-usermenu) and this root are flex rows, so the webmail
+		link and the user menu trigger are laid out by the gap: 16px declared on
+		.ion-usermenu-root — matching the spacing .header-end gives its own
+		children, exactly like the Svelte header-end.
 	-->
 	<div ref="root" class="ion-usermenu-root">
 		<a
-			:href="props.webmailUrl ?? '#'"
+			v-if="props.webmailUrl && props.hasEmailProduct"
+			:href="props.webmailUrl"
 			target="_blank"
 			rel="noopener noreferrer"
 			class="ion-header-action"
 			:title="t('simplenavigation', 'IONOS Webmail')">
-			<IconEmail :size="26" />
+			<NcIconSvgWrapper :path="mdiEmail" :size="26" />
 		</a>
 
 		<div class="ion-user-menu">
@@ -47,7 +53,7 @@ onClickOutside(root, () => { showMenu.value = false })
 				:aria-label="t('simplenavigation', 'User menu')"
 				:aria-expanded="showMenu"
 				@click="showMenu = !showMenu">
-				<IconAccount :size="26" />
+				<NcIconSvgWrapper :path="mdiAccount" :size="26" />
 			</button>
 
 			<div v-if="showMenu" class="ion-user-menu__panel">
@@ -57,28 +63,30 @@ onClickOutside(root, () => { showMenu.value = false })
 				<div class="ion-user-menu__divider" />
 				<nav class="ion-user-menu__nav">
 					<a :href="props.settingsUrl" class="ion-user-menu__item" @click="showMenu = false">
-						<IconCog :size="16" />
+						<NcIconSvgWrapper :path="mdiCog" :size="20" />
 						<span>{{ t('simplenavigation', 'Settings') }}</span>
 					</a>
-					<a :href="props.securityUrl"
+					<a
+						:href="props.securityUrl"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="ion-user-menu__item"
 						@click="showMenu = false">
-						<IconAccountKey :size="16" />
+						<NcIconSvgWrapper :path="mdiAccountKey" :size="20" />
 						<span>{{ t('simplenavigation', 'Login & Security') }}</span>
 					</a>
-					<a :href="props.helpUrl"
+					<a
+						:href="props.helpUrl"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="ion-user-menu__item"
 						@click="showMenu = false">
-						<IconHelpCircle :size="16" />
+						<NcIconSvgWrapper :path="mdiHelpCircle" :size="20" />
 						<span>{{ t('simplenavigation', 'Help & Support') }}</span>
 					</a>
 					<div class="ion-user-menu__divider" />
 					<a :href="props.logoutUrl" class="ion-user-menu__item" @click="showMenu = false">
-						<IconLogout :size="16" />
+						<NcIconSvgWrapper :path="mdiLogout" :size="20" />
 						<span>{{ t('simplenavigation', 'Logout') }}</span>
 					</a>
 				</nav>
@@ -88,15 +96,21 @@ onClickOutside(root, () => { showMenu.value = false })
 </template>
 
 <style lang="scss">
-// Make the mount-point div transparent to the parent flex layout
+// NC's rule (#header .header-end > div { height: 100%; position: relative })
+// automatically gives this element the full header height. We add flex so its
+// children (.ion-usermenu-root) are centred on the cross axis.
 #simplenavigation-usermenu {
-	display: contents;
+	display: flex !important;
+	align-items: center;
 }
 
-// The root wrapper is also transparent — webmail link and user menu
-// become direct flex children of .header-right with the parent's gap: 16px
+// Groups the webmail link and user-menu trigger as a centred flex row.
+// gap: 16px spaces the two icons; flex-shrink: 0 prevents them collapsing.
 .ion-usermenu-root {
-	display: contents;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	flex-shrink: 0;
 }
 
 // Webmail link and any other standalone header action icons
@@ -107,6 +121,13 @@ onClickOutside(root, () => { showMenu.value = false })
 	color: var(--ion-text);
 	text-decoration: none;
 	flex-shrink: 0;
+
+	// NcIconSvgWrapper renders span.icon-vue with display:inline-block and
+	// various NC rules can reduce its opacity to 0.5. Force both.
+	.icon-vue {
+		display: flex !important;
+		opacity: 1 !important;
+	}
 
 	&:hover {
 		opacity: 0.8;
@@ -142,6 +163,13 @@ onClickOutside(root, () => { showMenu.value = false })
 		color: var(--ion-text) !important;
 		opacity: 1 !important;
 		filter: none !important;
+
+		// NcIconSvgWrapper renders span.icon-vue with display:inline-block and
+		// various NC rules can reduce its opacity to 0.5. Force both.
+		.icon-vue {
+			display: flex !important;
+			opacity: 1 !important;
+		}
 
 		&:hover,
 		&:focus,
@@ -200,7 +228,7 @@ onClickOutside(root, () => { showMenu.value = false })
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		padding: 16px;
+		padding: 8px;
 		text-decoration: none;
 		color: var(--ion-context-menu-item-text);
 		font-weight: 500;

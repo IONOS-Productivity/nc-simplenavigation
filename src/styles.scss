@@ -1,6 +1,13 @@
+// Hide NC's default header-start (logo + appmenu) immediately via CSS so it
+// never flashes before simplenavigation JS inserts #simplenavigation-logo.
+// JS also hides it on DOMContentLoaded as a belt-and-suspenders measure.
+.header-start {
+	display: none !important;
+}
+
 // Override NC header chrome so our Vue layout takes full control
 #header {
-	--header-height: 64px; // NcHeaderMenu uses this for its trigger button size
+	--header-height: 44px; // NcHeaderMenu uses this for its trigger button size
 	padding: 0 !important;
 	background: var(--ion-color-main-background) !important;
 	box-shadow: var(--ion-shadow-header) !important;
@@ -16,8 +23,8 @@
 	flex-shrink: 0;
 }
 
-// NC's .header-right must stay flex so unified-search + our usermenu align
-.header-right {
+// NC's .header-end must stay flex so unified-search + our usermenu align
+.header-end {
 	display: flex !important;
 	align-items: center !important;
 	margin-left: auto;
@@ -25,10 +32,34 @@
 	padding-right: 16px;
 }
 
-// Force the unified-search trigger to use the IONOS header text colour.
-// NcHeaderMenu hardcodes color: var(--color-background-plain-text) on its trigger;
-// override the variable at the #unified-search scope so it and NcButton pick it up.
-#unified-search {
+// In NC v33 the unified search mounts as <div class="unified-search-menu"> (the
+// Vue component root that replaces the old #unified-search placeholder div).
+// Inject colour variables and prevent the wrapper from growing wider than its button.
+// Single, header-scoped rule: #header is where we take over the chrome, and
+// keeping one definition avoids the two copies drifting apart.
+#header .unified-search-menu {
 	--color-background-plain-text: var(--ion-text);
 	--color-primary-text: var(--ion-text);
+	width: fit-content;
+
+	// Drop the NC-default margin: auto so the trigger cannot drift within the
+	// wrapper; vertical alignment is handled by align-items: center on .header-end.
+	.header-menu__trigger.button-vue--icon-only {
+		margin: 0;
+		height: 100% !important;
+		width: 100% !important;
+
+		svg {
+			mask: none !important;
+		}
+	}
+}
+
+// Ensure all button-vue triggers in the header-end are fully opaque.
+// NC's .menutoggle rule sets opacity: .85; override it for our header.
+.header-end {
+	.header-menu__trigger,
+	.button-vue {
+		opacity: 1 !important;
+	}
 }
