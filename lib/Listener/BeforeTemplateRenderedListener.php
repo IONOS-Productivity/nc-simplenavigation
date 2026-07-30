@@ -44,7 +44,8 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			$this->initialState->provideInitialState('webmailUrl',
 				$this->config->getSystemValue('ionos_peer_products', [])['ionos_webmail_target_link'] ?? null);
 			$this->initialState->provideInitialState('hasEmailProduct',
-				$this->checkEmailProduct());
+				true); // DEBUG: force mail product visible for spacing review
+				// $this->checkEmailProduct());
 			$this->initialState->provideInitialState('securityUrl',
 				$this->config->getSystemValue('ionos_security_target_link', ''));
 			$this->initialState->provideInitialState('helpUrl',
