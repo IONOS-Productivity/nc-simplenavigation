@@ -19,7 +19,7 @@ function makeApp(component: object, props: Record<string, unknown>) {
 // Layout after our script runs:
 //   #header
 //   ├── #simplenavigation-logo   ← our HeaderLogo Vue 3 app (inserted)
-//   └── .header-right            ← original NC div, kept intact
+//   └── .header-end              ← original NC div, kept intact
 //       ├── #unified-search      ← NC unified search already mounted here
 //       ├── #simplenavigation-usermenu ← our UserMenu Vue 3 app (inserted)
 //       ├── #notifications       ← hidden
@@ -30,8 +30,8 @@ window.addEventListener('DOMContentLoaded', () => {
 	const header = document.getElementById('header')
 	if (!header) return
 
-	const headerRight = header.querySelector<HTMLElement>('.header-right')
-	if (!headerRight) return
+	const headerEnd = header.querySelector<HTMLElement>('.header-end')
+	if (!headerEnd) return
 
 	const isLoggedIn = loadState('simplenavigation', 'isLoggedIn', false)
 
@@ -40,13 +40,13 @@ window.addEventListener('DOMContentLoaded', () => {
 		const el = document.getElementById(id)
 		if (el) el.style.display = 'none'
 	}
-	const headerLeft = header.querySelector<HTMLElement>('.header-left')
-	if (headerLeft) headerLeft.style.display = 'none'
+	const headerStart = header.querySelector<HTMLElement>('.header-start')
+	if (headerStart) headerStart.style.display = 'none'
 
-	// Mount our logo before .header-right
+	// Mount our logo before .header-end
 	const logoMount = document.createElement('div')
 	logoMount.id = 'simplenavigation-logo'
-	header.insertBefore(logoMount, headerRight)
+	header.insertBefore(logoMount, headerEnd)
 
 	makeApp(HeaderLogo, {
 		homeUrl: loadState('simplenavigation', 'homeUrl', '/'),
@@ -56,13 +56,14 @@ window.addEventListener('DOMContentLoaded', () => {
 	if (isLoggedIn) {
 		const userMenuMount = document.createElement('div')
 		userMenuMount.id = 'simplenavigation-usermenu'
-		headerRight.appendChild(userMenuMount)
+		headerEnd.appendChild(userMenuMount)
 
 		makeApp(UserMenu, {
 			displayName: loadState('simplenavigation', 'displayName', ''),
 			logoutUrl: loadState('simplenavigation', 'logoutUrl', ''),
 			settingsUrl: loadState('simplenavigation', 'settingsUrl', ''),
 			webmailUrl: loadState<string | null>('simplenavigation', 'webmailUrl', null),
+			hasEmailProduct: loadState<boolean>('simplenavigation', 'hasEmailProduct', false),
 			securityUrl: loadState('simplenavigation', 'securityUrl', ''),
 			helpUrl: loadState('simplenavigation', 'helpUrl', ''),
 		}).mount('#simplenavigation-usermenu')
