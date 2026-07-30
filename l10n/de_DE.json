@@ -1,0 +1,9 @@
+{ "translations": {
+    "Help & Support" : "Hilfe & Support",
+    "IONOS Webmail" : "IONOS Webmail",
+    "Login & Security" : "Login & Sicherheit",
+    "Logout" : "Abmelden",
+    "Settings" : "Einstellungen",
+    "User menu" : "Benutzermenü"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
