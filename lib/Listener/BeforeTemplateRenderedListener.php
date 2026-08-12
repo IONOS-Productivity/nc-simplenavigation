@@ -33,6 +33,8 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		$this->initialState->provideInitialState('isLoggedIn', $isLoggedIn);
 		$this->initialState->provideInitialState('homeUrl',
 			$this->urlGenerator->linkTo('', 'index.php'));
+		$this->initialState->provideInitialState('productName',
+			$this->config->getSystemValue('ionos_product_name', ''));
 
 		if ($isLoggedIn) {
 			$this->initialState->provideInitialState('displayName',
