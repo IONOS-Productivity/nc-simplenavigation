@@ -60,11 +60,19 @@ onClickOutside(root, () => { showMenu.value = false })
 						<IconCog :size="16" />
 						<span>{{ t('simplenavigation', 'Settings') }}</span>
 					</a>
-					<a :href="props.securityUrl" target="_blank" rel="noopener noreferrer" class="ion-user-menu__item" @click="showMenu = false">
+					<a :href="props.securityUrl"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="ion-user-menu__item"
+						@click="showMenu = false">
 						<IconAccountKey :size="16" />
 						<span>{{ t('simplenavigation', 'Login & Security') }}</span>
 					</a>
-					<a :href="props.helpUrl" target="_blank" rel="noopener noreferrer" class="ion-user-menu__item" @click="showMenu = false">
+					<a :href="props.helpUrl"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="ion-user-menu__item"
+						@click="showMenu = false">
 						<IconHelpCircle :size="16" />
 						<span>{{ t('simplenavigation', 'Help & Support') }}</span>
 					</a>

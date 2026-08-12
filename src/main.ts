@@ -56,11 +56,11 @@ window.addEventListener('DOMContentLoaded', () => {
 	headerRight.appendChild(userMenuMount)
 
 	makeApp(UserMenu, {
-		displayName:     loadState('simplenavigation', 'displayName', ''),
-		logoutUrl:       loadState('simplenavigation', 'logoutUrl', ''),
-		settingsUrl:     loadState('simplenavigation', 'settingsUrl', ''),
-		webmailUrl:      loadState<string | null>('simplenavigation', 'webmailUrl', null),
-		securityUrl:     loadState('simplenavigation', 'securityUrl', ''),
-		helpUrl:         loadState('simplenavigation', 'helpUrl', ''),
+		displayName: loadState('simplenavigation', 'displayName', ''),
+		logoutUrl: loadState('simplenavigation', 'logoutUrl', ''),
+		settingsUrl: loadState('simplenavigation', 'settingsUrl', ''),
+		webmailUrl: loadState<string | null>('simplenavigation', 'webmailUrl', null),
+		securityUrl: loadState('simplenavigation', 'securityUrl', ''),
+		helpUrl: loadState('simplenavigation', 'helpUrl', ''),
 	}).mount('#simplenavigation-usermenu')
 })
