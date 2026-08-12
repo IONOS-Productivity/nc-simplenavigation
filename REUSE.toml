@@ -31,7 +31,6 @@ path = [
   ".php-cs-fixer.dist.php",
   "composer.json",
   "composer.lock",
-  "openapi.json",
   "package.json",
   "package-lock.json",
   "psalm.xml",
