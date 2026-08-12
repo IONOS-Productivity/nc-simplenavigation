@@ -54,13 +54,12 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	}
 
 	private function checkEmailProduct(): bool {
-		try {
-			$availableProductsClaim = \OC::$server->get(\OC\SystemConfig::class)
-				->getValue('available_products_claim');
-			if ($availableProductsClaim === '') {
-				return false;
-			}
+		$availableProductsClaim = $this->config->getSystemValueString('available_products_claim');
+		if ($availableProductsClaim === '') {
+			return false;
+		}
 
+		try {
 			$userOIDCBackend = \OC::$server->get(\OCA\UserOIDC\User\Backend::class);
 			$userData = $userOIDCBackend->getUserData();
 			$availableProductsData = $userData['raw'][$availableProductsClaim] ?? [];
