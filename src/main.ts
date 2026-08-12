@@ -30,8 +30,8 @@ window.addEventListener('DOMContentLoaded', () => {
 	const header = document.getElementById('header')
 	if (!header) return
 
-	const headerRight = header.querySelector<HTMLElement>('.header-end')
-	if (!headerRight) return
+	const headerEnd = header.querySelector<HTMLElement>('.header-end')
+	if (!headerEnd) return
 
 	const isLoggedIn = loadState('simplenavigation', 'isLoggedIn', false)
 
@@ -40,13 +40,13 @@ window.addEventListener('DOMContentLoaded', () => {
 		const el = document.getElementById(id)
 		if (el) el.style.display = 'none'
 	}
-	const headerLeft = header.querySelector<HTMLElement>('.header-start')
-	if (headerLeft) headerLeft.style.display = 'none'
+	const headerStart = header.querySelector<HTMLElement>('.header-start')
+	if (headerStart) headerStart.style.display = 'none'
 
 	// Mount our logo before .header-end
 	const logoMount = document.createElement('div')
 	logoMount.id = 'simplenavigation-logo'
-	header.insertBefore(logoMount, headerRight)
+	header.insertBefore(logoMount, headerEnd)
 
 	makeApp(HeaderLogo, {
 		homeUrl: loadState('simplenavigation', 'homeUrl', '/'),
@@ -56,16 +56,16 @@ window.addEventListener('DOMContentLoaded', () => {
 	if (isLoggedIn) {
 		const userMenuMount = document.createElement('div')
 		userMenuMount.id = 'simplenavigation-usermenu'
-		headerRight.appendChild(userMenuMount)
+		headerEnd.appendChild(userMenuMount)
 
 		makeApp(UserMenu, {
-			displayName:     loadState('simplenavigation', 'displayName', ''),
-			logoutUrl:       loadState('simplenavigation', 'logoutUrl', ''),
-			settingsUrl:     loadState('simplenavigation', 'settingsUrl', ''),
-			webmailUrl:      loadState<string | null>('simplenavigation', 'webmailUrl', null),
+			displayName: loadState('simplenavigation', 'displayName', ''),
+			logoutUrl: loadState('simplenavigation', 'logoutUrl', ''),
+			settingsUrl: loadState('simplenavigation', 'settingsUrl', ''),
+			webmailUrl: loadState<string | null>('simplenavigation', 'webmailUrl', null),
 			hasEmailProduct: loadState<boolean>('simplenavigation', 'hasEmailProduct', false),
-			securityUrl:     loadState('simplenavigation', 'securityUrl', ''),
-			helpUrl:         loadState('simplenavigation', 'helpUrl', ''),
+			securityUrl: loadState('simplenavigation', 'securityUrl', ''),
+			helpUrl: loadState('simplenavigation', 'helpUrl', ''),
 		}).mount('#simplenavigation-usermenu')
 	}
 })

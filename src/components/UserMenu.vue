@@ -30,11 +30,11 @@ onClickOutside(root, () => { showMenu.value = false })
 
 <template>
 	<!--
-		Webmail and user menu are siblings, not nested.
-		display: contents on the root makes #simplenavigation-usermenu
-		transparent to the flex layout of .header-end, so the gap: 16px
-		on .header-end applies between #unified-search, the webmail link,
-		and the user menu trigger — exactly like the Svelte header-end.
+		Webmail and user menu are siblings, not nested. Both the mount point
+		(#simplenavigation-usermenu) and this root are flex rows, so the webmail
+		link and the user menu trigger are laid out by the gap: 16px declared on
+		.ion-usermenu-root — matching the spacing .header-end gives its own
+		children, exactly like the Svelte header-end.
 	-->
 	<div ref="root" class="ion-usermenu-root">
 		<a
@@ -66,11 +66,21 @@ onClickOutside(root, () => { showMenu.value = false })
 						<NcIconSvgWrapper :path="mdiCog" :size="20" />
 						<span>{{ t('simplenavigation', 'Settings') }}</span>
 					</a>
-					<a :href="props.securityUrl" target="_blank" rel="noopener noreferrer" class="ion-user-menu__item" @click="showMenu = false">
+					<a
+						:href="props.securityUrl"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="ion-user-menu__item"
+						@click="showMenu = false">
 						<NcIconSvgWrapper :path="mdiAccountKey" :size="20" />
 						<span>{{ t('simplenavigation', 'Login & Security') }}</span>
 					</a>
-					<a :href="props.helpUrl" target="_blank" rel="noopener noreferrer" class="ion-user-menu__item" @click="showMenu = false">
+					<a
+						:href="props.helpUrl"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="ion-user-menu__item"
+						@click="showMenu = false">
 						<NcIconSvgWrapper :path="mdiHelpCircle" :size="20" />
 						<span>{{ t('simplenavigation', 'Help & Support') }}</span>
 					</a>
