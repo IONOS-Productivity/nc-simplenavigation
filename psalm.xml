@@ -18,4 +18,17 @@
 	<extraFiles>
 		<directory name="vendor"/>
 	</extraFiles>
+    <issueHandlers>
+        <!--
+            Legacy/private server classes and classes of optional apps are not
+            shipped by nextcloud/ocp, so psalm cannot resolve them.
+        -->
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="OC" />
+                <referencedClass name="OC_User" />
+                <referencedClass name="OCA\UserOIDC\User\Backend" />
+            </errorLevel>
+        </UndefinedClass>
+    </issueHandlers>
 </psalm>

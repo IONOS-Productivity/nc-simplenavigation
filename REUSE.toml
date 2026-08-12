@@ -1,0 +1,69 @@
+version = 1
+SPDX-PackageName = "simplenavigation"
+SPDX-PackageSupplier = "STRATO GmbH <kai.henseler@strato.de>"
+SPDX-PackageDownloadLocation = "https://github.com/IONOS-Productivity/nc-simplenavigation"
+
+# App source, templates, tests, metadata and assets.
+[[annotations]]
+path = [
+  "appinfo/**",
+  "lib/**",
+  "src/**",
+  "templates/**",
+  "tests/**",
+  "img/**",
+]
+SPDX-FileCopyrightText = "STRATO GmbH <kai.henseler@strato.de>"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+# Generated translation files.
+[[annotations]]
+path = "l10n/**"
+SPDX-FileCopyrightText = "STRATO GmbH <kai.henseler@strato.de>"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+# Build, tooling and dependency configuration.
+[[annotations]]
+path = [
+  ".gitignore",
+  ".nvmrc",
+  ".eslintrc.cjs",
+  ".php-cs-fixer.dist.php",
+  "composer.json",
+  "composer.lock",
+  "package.json",
+  "package-lock.json",
+  "psalm.xml",
+  "rector.php",
+  "stylelint.config.cjs",
+  "tsconfig.json",
+  "vite.config.ts",
+  "vendor-bin/**",
+]
+SPDX-FileCopyrightText = "STRATO GmbH <kai.henseler@strato.de>"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+# Documentation.
+[[annotations]]
+path = [
+  "CHANGELOG.md",
+  "CODE_OF_CONDUCT.md",
+  "README.md",
+  "plan.md",
+]
+SPDX-FileCopyrightText = "STRATO GmbH <kai.henseler@strato.de>"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+# Dependabot config, matching the MIT licensing of the rest of .github/.
+# The workflow files themselves carry inline SPDX headers.
+[[annotations]]
+path = ".github/dependabot.yml"
+SPDX-FileCopyrightText = "2021-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "MIT"
+
+# Verbatim GNU licence text, duplicated by LICENSES/AGPL-3.0-or-later.txt.
+# Kept at the repository root so GitHub licence detection keeps working.
+[[annotations]]
+path = "LICENSE"
+SPDX-FileCopyrightText = "2007 Free Software Foundation, Inc. <https://fsf.org/>"
+SPDX-License-Identifier = "CC0-1.0"
