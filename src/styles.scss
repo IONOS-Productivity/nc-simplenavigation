@@ -1,3 +1,17 @@
+// Design tokens that used to live in the legacy theming header's shadow root
+// (themes/nc-ionos-theme, IONOS/src/style.scss), removed in nc-ionos-theme#67
+// without being relocated. simplenavigation is now their only consumer, so it
+// owns them. Values restored from a5e6ec2; --color-shadow-header and the
+// --ion-color-* palette still come from nc_theming at :root.
+:root {
+	--ion-shadow-header: 0 2px 8px 0 var(--color-shadow-header);
+	--ion-shadow: 0 4px 8px rgb(0 0 0 / 12%);
+	--ion-context-menu-title-background: light-dark(
+		var(--ion-color-blue-b2),
+		var(--ion-color-cool-grey-c7)
+	);
+}
+
 // Hide NC's default header-start (logo + appmenu) immediately via CSS so it
 // never flashes before simplenavigation JS inserts #simplenavigation-logo.
 // JS also hides it on DOMContentLoaded as a belt-and-suspenders measure.
