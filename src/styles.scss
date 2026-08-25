@@ -42,7 +42,7 @@
 	display: flex !important;
 	align-items: center !important;
 	margin-left: auto;
-	gap: 16px;
+	gap: 8px;
 	padding-right: 16px;
 }
 
@@ -65,6 +65,10 @@
 
 		svg {
 			mask: none !important;
+			width: 30px !important;
+			height: 30px !important;
+			max-width: 30px !important;
+			max-height: 30px !important;
 		}
 	}
 }
@@ -76,4 +80,5 @@
 	.button-vue {
 		opacity: 1 !important;
 	}
+	gap: 8px;
 }

@@ -32,7 +32,7 @@ onClickOutside(root, () => { showMenu.value = false })
 	<!--
 		Webmail and user menu are siblings, not nested. Both the mount point
 		(#simplenavigation-usermenu) and this root are flex rows, so the webmail
-		link and the user menu trigger are laid out by the gap: 16px declared on
+		link and the user menu trigger are laid out by the gap: 8px declared on
 		.ion-usermenu-root — matching the spacing .header-end gives its own
 		children, exactly like the Svelte header-end.
 	-->
@@ -44,7 +44,7 @@ onClickOutside(root, () => { showMenu.value = false })
 			rel="noopener noreferrer"
 			class="ion-header-action"
 			:title="t('simplenavigation', 'IONOS Webmail')">
-			<NcIconSvgWrapper :path="mdiEmail" :size="26" />
+			<NcIconSvgWrapper :path="mdiEmail" :size="30" />
 		</a>
 
 		<div class="ion-user-menu">
@@ -53,7 +53,7 @@ onClickOutside(root, () => { showMenu.value = false })
 				:aria-label="t('simplenavigation', 'User menu')"
 				:aria-expanded="showMenu"
 				@click="showMenu = !showMenu">
-				<NcIconSvgWrapper :path="mdiAccount" :size="26" />
+				<NcIconSvgWrapper :path="mdiAccount" :size="30" />
 			</button>
 
 			<div v-if="showMenu" class="ion-user-menu__panel">
@@ -105,11 +105,11 @@ onClickOutside(root, () => { showMenu.value = false })
 }
 
 // Groups the webmail link and user-menu trigger as a centred flex row.
-// gap: 16px spaces the two icons; flex-shrink: 0 prevents them collapsing.
+// gap: 8px spaces the two icons; flex-shrink: 0 prevents them collapsing.
 .ion-usermenu-root {
 	display: flex;
 	align-items: center;
-	gap: 16px;
+	gap: 8px;
 	flex-shrink: 0;
 }
 
