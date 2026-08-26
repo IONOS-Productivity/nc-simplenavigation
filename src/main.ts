@@ -30,10 +30,29 @@ window.addEventListener('DOMContentLoaded', () => {
 	const header = document.getElementById('header')
 	if (!header) return
 
-	const headerEnd = header.querySelector<HTMLElement>('.header-end')
-	if (!headerEnd) return
-
 	const isLoggedIn = loadState('simplenavigation', 'isLoggedIn', false)
+	const headerEnd = header.querySelector<HTMLElement>('.header-end')
+
+	if (!headerEnd) {
+		const headerEl = header.closest<HTMLElement>('header') ?? header
+		if (headerEl.parentElement !== document.body) {
+			document.body.insertBefore(headerEl, document.body.firstChild)
+		}
+
+		// Replace NC's default .logo div with the IONOS logo.
+		const ncLogo = header.querySelector<HTMLElement>('.logo')
+		const logoMount = document.createElement('div')
+		logoMount.id = 'simplenavigation-logo'
+		if (ncLogo) {
+			header.replaceChild(logoMount, ncLogo)
+		} else {
+			header.prepend(logoMount)
+		}
+		makeApp(HeaderLogo, {
+			homeUrl: loadState('simplenavigation', 'homeUrl', '/'),
+		}).mount('#simplenavigation-logo')
+		return
+	}
 
 	// Hide NC elements we don't want visible
 	for (const id of ['notifications', 'contactsmenu', 'user-menu']) {

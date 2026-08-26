@@ -19,10 +19,29 @@
 	display: none !important;
 }
 
+// On guest/login pages the <header> wrapping #header is nested inside
+// .wrapper (max-width: 700px). Pull it out with fixed positioning so it
+// spans the full viewport width. Add top padding to .wrapper so its
+// content is not hidden behind the fixed bar.
+body#body-login {
+	header:has(#header.header-guest) {
+		position: fixed !important;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+	}
+
+	.wrapper {
+		padding-top: var(--header-height);
+	}
+}
+
 // Override NC header chrome so our Vue layout takes full control
 #header {
 	--header-height: 44px; // NcHeaderMenu uses this for its trigger button size
 	padding: 0 !important;
+	width: 100% !important;
 	background: var(--ion-color-main-background) !important;
 	box-shadow: var(--ion-shadow-header) !important;
 	height: 64px !important;
