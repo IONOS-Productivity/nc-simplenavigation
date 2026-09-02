@@ -69,6 +69,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	makeApp(HeaderLogo, {
 		homeUrl: loadState('simplenavigation', 'homeUrl', '/'),
+		productName: loadState('simplenavigation', 'productName', ''),
 	}).mount('#simplenavigation-logo')
 
 	// Mount webmail link + our UserMenu only for authenticated users
