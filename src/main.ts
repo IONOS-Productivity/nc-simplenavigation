@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import HeaderLogo from './components/HeaderLogo.vue'
+import { Brand } from './types'
 import UserMenu from './components/UserMenu.vue'
 import './styles.scss'
 
@@ -51,6 +52,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	makeApp(HeaderLogo, {
 		homeUrl: loadState('simplenavigation', 'homeUrl', '/'),
 		productName: loadState('simplenavigation', 'productName', ''),
+		brand: loadState('simplenavigation', 'brand', '') as Brand,
 	}).mount('#simplenavigation-logo')
 
 	// Mount webmail link + our UserMenu only for authenticated users
